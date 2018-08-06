@@ -1,0 +1,33 @@
+--- /src/mp4util.h.original	2018-08-01 19:53:53.012460658 +0200
++++ /src/mp4util.h	2018-08-01 19:55:16.576462720 +0200
+@@ -33,7 +33,7 @@
+ #ifndef ASSERT
+ #   define ASSERT(expr) \
+         if (!(expr)) { \
+-            throw new Exception("assert failure: "LIBMPV42_STRINGIFY((expr)), __FILE__, __LINE__, __FUNCTION__ ); \
++            throw new Exception("assert failure: " LIBMPV42_STRINGIFY((expr)), __FILE__, __LINE__, __FUNCTION__ ); \
+         }
+ #endif
+ 
+--- /src/mp4.cpp.original	2018-08-01 19:59:13.361468561 +0200
++++ /src/mp4.cpp	2018-08-01 20:01:45.549472316 +0200
+@@ -870,7 +870,7 @@
+         }
+ 
+         catch (...) {
+-            return MP4_INVALID_TRACK_ID;
++            return (mp4v2_ismacrypParams *)MP4_INVALID_TRACK_ID;
+         }
+     }
+ 
+--- /src/rtphint.cpp.original	2018-08-01 20:07:23.826480661 +0200
++++ /src/rtphint.cpp	2018-08-01 20:14:04.019490534 +0200
+@@ -339,7 +339,7 @@
+                 pSlash = strchr(pSlash, '/');
+                 if (pSlash != NULL) {
+                     pSlash++;
+-                    if (pSlash != '\0') {
++                    if (*pSlash != '\0') {
+                         length = (uint32_t)strlen(pRtpMap) - (pSlash - pRtpMap);
+                         *ppEncodingParams = (char *)MP4Calloc(length + 1);
+                         strncpy(*ppEncodingParams, pSlash, length);

@@ -1,0 +1,181 @@
+--- /gen_compile.sh.original	2018-07-30 23:59:49.835275113 +0200
++++ /gen_compile.sh	2018-07-30 23:59:57.353275298 +0200
+@@ -3,12 +3,15 @@
+ 
+ compile_kernel_args() {
+     local ARGS
+-
+     ARGS=''
+     if [ "${KERNEL_CC}" != '' ]
+     then
+         ARGS="CC=\"${KERNEL_CC}\""
+     fi
++    if [ "${KERNEL_CFLAGS}" != '' ]
++    then
++        ARGS="${ARGS} CFLAGS=\"${KERNEL_CFLAGS}\""
++    fi
+     if [ "${KERNEL_LD}" != '' ]
+     then
+         ARGS="${ARGS} LD=\"${KERNEL_LD}\""
+@@ -43,6 +46,10 @@
+     then
+         ARGS="CC=\"${UTILS_CC}\""
+     fi
++    if [ "${KERNEL_CFLAGS}" != '' ]
++    then
++        ARGS="${ARGS} CFLAGS=\"${KERNEL_CFLAGS}\""
++    fi
+     if [ "${UTILS_LD}" != '' ]
+     then
+         ARGS="${ARGS} LD=\"${UTILS_LD}\""
+@@ -66,6 +73,10 @@
+     then
+         export CC="${UTILS_CC}"
+     fi
++    if [ "${KERNEL_CFLAGS}" != '' ]
++    then
++        export CFLAGS="${KERNEL_CFLAGS}"
++    fi
+     if [ "${UTILS_LD}" != '' ]
+     then
+         export LD="${UTILS_LD}"
+@@ -86,6 +97,10 @@
+     then
+         unset CC
+     fi
++    if [ "${UTILS_CFLAGS}" != '' ]
++    then
++        unset CFLAGS
++    fi
+     if [ "${UTILS_LD}" != '' ]
+     then
+         unset LD
+@@ -103,6 +118,10 @@
+     then
+         export CC="${KERNEL_CC}"
+     fi
++    if [ "${KERNEL_CFLAGS}" != '' ]
++    then
++        export CFLAGS="${KERNEL_CFLAGS}"
++    fi
+     if [ "${KERNEL_LD}" != '' ]
+     then
+         export LD="${KERNEL_LD}"
+@@ -119,6 +138,10 @@
+     then
+         unset CC
+     fi
++    if [ "${KERNEL_CFLAGS}" != '' ]
++    then
++        unset CFLAGS
++    fi
+     if [ "${KERNEL_LD}" != '' ]
+     then
+         unset LD
+@@ -138,6 +161,10 @@
+     then
+         export ORIG_CC="${CC}"
+     fi
++    if [ "${CFLAGS}" != '' ]
++    then
++        export ORIG_CFLAGS="${CFLAGS}"
++    fi
+     if [ "${LD}" != '' ]
+     then
+         export ORIG_LD="${LD}"
+@@ -159,6 +186,11 @@
+         export CC="${ORIG_CC}"
+         unset ORIG_CC
+     fi
++    if [ "${ORIG_CFLAGS}" != '' ]
++    then
++        export CC="${ORIG_CFLAGS}"
++        unset ORIG_CFLAGS
++    fi
+     if [ "${ORIG_LD}" != '' ]
+     then
+         export LD="${ORIG_LD}"
+--- /genkernel.conf.original	2018-07-31 00:02:55.835279701 +0200
++++ /genkernel.conf	2018-07-31 00:03:01.532279842 +0200
+@@ -148,6 +148,9 @@
+ # command line option.
+ #KERNEL_CC="gcc"
+ 
++# Compiler flags to pass to the kernel
++#KERNEL_CFLAGS=""
++
+ # Assembler to use for the kernel.  See also the --kernel-as command line
+ # option.
+ #KERNEL_AS="as"
+@@ -163,6 +166,9 @@
+ # command line option.
+ #UTILS_CC="gcc"
+ 
++# Compiler flags to use for the utilities
++#UTILS_CFLAGS=""
++
+ # Assembler to use for the utilities.  See also the --utils-as command line
+ # option.
+ #UTILS_AS="as"
+--- /gen_cmdline.sh.original	2018-07-31 00:04:37.955282221 +0200
++++ /gen_cmdline.sh	2018-07-31 00:07:11.313286004 +0200
+@@ -62,6 +62,7 @@
+   echo "                will be installed in <prefix>/lib/modules"
+   echo "  Low-Level Compile settings"
+   echo "    --kernel-cc=<compiler>  Compiler to use for kernel (e.g. distcc)"
++  echo "    --kernel-cflags=<cflags> Compiler CFLAGS to add to kernel CFLAGS"
+   echo "    --kernel-as=<assembler> Assembler to use for kernel"
+   echo "    --kernel-ld=<linker>    Linker to use for kernel"
+   echo "    --kernel-make=<makeprg> GNU Make to use for kernel"
+@@ -70,6 +71,7 @@
+   echo "    --kernel-outputdir=<path> Save output files outside the source tree."
+ 
+   echo "    --utils-cc=<compiler>   Compiler to use for utilities"
++  echo "    --utils-cflags=<cflags> Compiler CFLAGS to add to utilities CFLAGS"
+   echo "    --utils-as=<assembler>  Assembler to use for utils"
+   echo "    --utils-ld=<linker> Linker to use for utils"
+   echo "    --utils-make=<makeprog> GNU Make to use for utils"
+@@ -205,6 +207,10 @@
+             CMD_KERNEL_CC=`parse_opt "$*"`
+             print_info 2 "CMD_KERNEL_CC: ${CMD_KERNEL_CC}"
+             ;;
++        --kernel-cflags=*)
++            CMD_KERNEL_CFLAGS=`parse_opt "$*"`
++            print_info 2 "CMD_KERNEL_CFLAGS: ${CMD_KERNEL_CFLAGS}"
++            ;;
+         --kernel-ld=*)
+             CMD_KERNEL_LD=`parse_opt "$*"`
+             print_info 2 "CMD_KERNEL_LD: ${CMD_KERNEL_LD}"
+@@ -233,6 +239,10 @@
+             CMD_UTILS_CC=`parse_opt "$*"`
+             print_info 2 "CMD_UTILS_CC: ${CMD_UTILS_CC}"
+             ;;
++        --utils-cflags=*)
++            CMD_UTILS_CFLAGS=`parse_opt "$*"`
++            print_info 2 "CMD_UTILS_CFLAGS: ${CMD_UTILS_CFLAGS}"
++            ;;
+         --utils-ld=*)
+             CMD_UTILS_LD=`parse_opt "$*"`
+             print_info 2 "CMD_UTILS_LD: ${CMD_UTILS_LD}"
+--- /doc/genkernel.8.txt.original	2018-07-31 00:09:47.552289858 +0200
++++ /doc/genkernel.8.txt	2018-07-31 00:09:50.689289936 +0200
+@@ -180,6 +180,9 @@
+ *--kernel-cc*=<compiler>::
+     Compiler to use for the kernel compilation (e.g. distcc).
+ 
++*--kernel-cflags*=<cflags>::
++    CFLAGS to add to the kernel compilation.
++
+ *--kernel-as*=<assembler>::
+     Assembler to use for the kernel compilation.
+ 
+@@ -200,6 +203,9 @@
+ *--utils-cc*=<compiler>::
+     Compiler to use for utilities.
+ 
++*--utils-cflags*=<cflags>::
++    CFLAGS to add for utilities compilation.
++
+ *--utils-as*=<assembler>::
+     Assembler to use for utilities.
+ 

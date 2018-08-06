@@ -1,0 +1,11 @@
+--- /Make.defaults.original	2018-08-06 20:48:17.923717271 +0200
++++ /Make.defaults	2018-08-06 20:48:32.632717634 +0200
+@@ -29,7 +29,7 @@
+ PKGS	=
+ 
+ SUBDIR_CFLAGS ?=
+-clang_cflags =
++clang_cflags = -I/usr/include/efivar
+ gcc_cflags =
+ cflags	= $(CFLAGS) $(SUBDIR_CFLAGS) \
+ 	-Wall -Wextra -Wsign-compare -Wstrict-aliasing \

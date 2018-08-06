@@ -1,0 +1,33 @@
+--- /buildflags.mak.original	2018-07-31 23:08:34.637654825 +0200
++++ /buildflags.mak	2018-07-31 23:11:43.919659494 +0200
+@@ -40,29 +40,13 @@
+ export arch := $(shell uname -m | sed -e 's,\(i[456]86\|athlon$$\),i386,')
+ 
+ ifeq (${CCARCH},pathcc)
+-	export CC := pathcc -fno-fast-stdlib 
++	CFLAGS+=-fno-fast-stdlib 
+ 	export PATH := ${PATH}:/opt/pathscale/bin/
+-else
+-	ifeq (${CCARCH},gcc)
+-		export CC := gcc 
+-	else
+-		ifeq (${CCARCH},gcc4)
+-			export CC := gcc4
+-		else
+-			anerr := $(error Unknown C compiler arch: ${CCARCH})
+-		endif # gcc4
+-	endif # gcc
+ endif # pathcc
+ 
+ ifeq (${FCARCH},pathf90)
+ 	export FC := pathf90 
+ 	export PATH := ${PATH}:/opt/pathscale/bin/
+-else
+-	ifeq (${FCARCH},gfortran)
+-		export FC := gfortran 
+-	else
+-		anerr := $(error Unknown Fortran compiler arch: ${FCARCH})
+-	endif # gfortran
+ endif # pathf90
+ 
+ BASECFLAGS += $(BASE_FLAGS)
