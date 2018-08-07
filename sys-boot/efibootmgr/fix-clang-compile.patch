@@ -1,11 +1,22 @@
---- /Make.defaults.original	2018-08-06 20:48:17.923717271 +0200
-+++ /Make.defaults	2018-08-06 20:48:32.632717634 +0200
-@@ -29,7 +29,7 @@
+From 2e07ba98133efa72da5f8a23755759c7675a9180 Mon Sep 17 00:00:00 2001
+From: David Carlos Manuelda <StormByte@gmail.com>
+Date: Tue, 7 Aug 2018 05:11:45 +0200
+Subject: [PATCH] Fix compilation with CLang
+
+---
+ Make.defaults | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Make.defaults b/Make.defaults
+index c4c0592..4a75a7b 100644
+--- a/Make.defaults
++++ b/Make.defaults
+@@ -35,7 +35,7 @@ RANLIB	:= $(CROSS_COMPILE)gcc-ranlib
  PKGS	=
  
  SUBDIR_CFLAGS ?=
 -clang_cflags =
-+clang_cflags = -I/usr/include/efivar
++clang_cflags = $(pkg-config --cflags efivar)
  gcc_cflags =
- cflags	= $(CFLAGS) $(SUBDIR_CFLAGS) \
- 	-Wall -Wextra -Wsign-compare -Wstrict-aliasing \
+ cflags	= $(EXTRALIBDIR) $(EXTRAINCDIR) $(CFLAGS) $(SUBDIR_CFLAGS) \
+ 	-Werror -Wall -Wextra -Wsign-compare -Wstrict-aliasing \
