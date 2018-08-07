@@ -6,7 +6,7 @@ index 1ee5cb16f..8414e900f 100644
  	struct midi_write_parser midi_out;
  };
  
-+void foreach_cb(const struct midi_write_parser *parser, void *user_data) {
++static void foreach_cb(const struct midi_write_parser *parser, void *user_data) {
 +	struct midi *midi = user_data;
 +	bt_gatt_client_write_without_response(midi->client,
 +	                                      midi->midi_io_handle,
