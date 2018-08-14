@@ -1,0 +1,87 @@
+--- configure.ac.original	2018-08-07 13:00:10.477567811 +0000
++++ configure.ac	2018-08-07 13:01:32.380569831 +0000
+@@ -7,6 +7,13 @@
+ AC_CONFIG_HEADERS([config.h])
+ CFLAGS="${CFLAGS} -Wall -Werror"
+ 
++# Clang needs to ignore unknown warnings on the checks, otherwise they will give false negatives
++case "$CC" in
++	*clang*)
++	CFLAGS="${CFLAGS} -Wno-unknown-warning-option"
++	;;
++esac
++
+ ################################################################################
+ # Set the shared versioning info, according to section 6.3 of the libtool info #
+ # pages. CURRENT:REVISION:AGE must be updated immediately before each release: #
+--- src/base/omx_base_component.c.original	2018-08-07 13:04:30.023574214 +0000
++++ src/base/omx_base_component.c	2018-08-07 13:05:44.117576041 +0000
+@@ -1258,7 +1258,7 @@
+ 
+ 	DEBUG(DEB_LEV_FUNCTION_NAME, "In %s for component %p\n", __func__, hComponent);
+ 	if(strcmp(cParameterName,"OMX.st.index.param.BellagioThreadsID") == 0) {
+-		*pIndexType = OMX_IndexParameterThreadsID;
++		*pIndexType = (OMX_INDEXTYPE)OMX_IndexParameterThreadsID;
+ 	} else {
+ 		return OMX_ErrorBadParameter;
+ 	}
+--- src/base/omx_base_port.c.original	2018-08-07 13:06:48.022577618 +0000
++++ src/base/omx_base_port.c	2018-08-07 13:08:26.920580058 +0000
+@@ -1065,7 +1065,7 @@
+       OMX_VENDOR_PROP_TUNNELSETUPTYPE pPropTunnelSetup;
+       pPropTunnelSetup.nPortIndex = nTunneledPort;
+ 
+-      err = OMX_GetParameter(hTunneledComp, OMX_IndexVendorCompPropTunnelFlags, &pPropTunnelSetup);
++      err = OMX_GetParameter(hTunneledComp, (OMX_INDEXTYPE)OMX_IndexVendorCompPropTunnelFlags, &pPropTunnelSetup);
+       if (err != OMX_ErrorNone) {
+         // compatibility not reached
+         DEBUG(DEB_LEV_ERR,"In %s Proprietary Tunneled Buffer Supplier nTunneledPort=%d error=0x%08x Line=%d \n",
+@@ -1142,7 +1142,7 @@
+       OMX_VENDOR_PROP_TUNNELSETUPTYPE pPropTunnelSetup;
+       pPropTunnelSetup.nPortIndex = nTunneledPort;
+ 
+-      err = OMX_GetParameter(hTunneledComp, OMX_IndexVendorCompPropTunnelFlags, &pPropTunnelSetup);
++      err = OMX_GetParameter(hTunneledComp, (OMX_INDEXTYPE)OMX_IndexVendorCompPropTunnelFlags, &pPropTunnelSetup);
+       if (err != OMX_ErrorNone) {
+         // compatibility not reached
+         DEBUG(DEB_LEV_ERR,"In %s Proprietary Tunneled Buffer Supplier nTunneledPort=%d error=0x%08x Line=%d \n",
+--- src/utils.c.original	2018-08-07 13:09:42.805581930 +0000
++++ src/utils.c	2018-08-07 13:18:18.165594644 +0000
+@@ -47,7 +47,7 @@
+ 	case 5:
+ 		nameString = "OMX_StateWaitForResources";
+ 		break;
+-	default: nameString = '\0';
++	default: nameString = "";
+ 	}
+ 	return nameString;
+ }
+@@ -82,7 +82,7 @@
+ 	case 8:
+ 		nameString = "OMX_TransStateIdleToLoaded";
+ 		break;
+-	default: nameString = '\0';
++	default: nameString = "";
+ 	}
+ 	return nameString;
+ }
+@@ -204,7 +204,7 @@
+ 	case 0x80001024:
+ 		nameString = "OMX_ErrorTunnelingUnsupported";
+ 		break;
+-	default: nameString = '\0';
++	default: nameString = "";
+ 	}
+ 	return nameString;
+ }
+--- src/components/videoscheduler/omx_video_scheduler_component.c.original	2018-08-07 13:19:30.687596433 +0000
++++ src/components/videoscheduler/omx_video_scheduler_component.c	2018-08-07 13:19:45.110596789 +0000
+@@ -598,7 +598,7 @@
+         pPort->sPortParam.format.video.nSliceHeight = pPort->sPortParam.format.video.nFrameHeight;  //  No support for slices yet
+         // Read-only field by spec
+ 
+-        pPort->sPortParam.nBufferSize = (OMX_U32) abs(pPort->sPortParam.format.video.nStride) * pPort->sPortParam.format.video.nSliceHeight;
++        pPort->sPortParam.nBufferSize = (OMX_U32) labs(pPort->sPortParam.format.video.nStride) * pPort->sPortParam.format.video.nSliceHeight;
+       } else {
+         pClockPort = (omx_base_clock_PortType *) omx_video_scheduler_component_Private->ports[portIndex];
+ 
