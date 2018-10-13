@@ -1,0 +1,22 @@
+--- a/bindings/vala/emojier.c	2018-10-13 03:33:09.166029744 -0000
++++ b/bindings/vala/emojier.c	2018-10-13 03:34:25.084031617 -0000
+@@ -3127,7 +3127,7 @@
+ 	_tmp21_ = _tmp20_.height;
+ 	gtk_adjustment_clamp_page (adjustment, (gdouble) _tmp17_, (gdouble) (_tmp19_ + _tmp21_));
+ 	_tmp22_ = self->priv->m_category_active_index;
+-	g_return_val_if_fail (_tmp22_ >= 0, FALSE);
++	g_return_if_fail (_tmp22_ >= 0);
+ 	_tmp23_ = self->priv->m_lookup_table;
+ 	_tmp24_ = self->priv->m_category_active_index;
+ 	ibus_lookup_table_set_cursor_pos (_tmp23_, (guint) _tmp24_);
+--- a/ui/gtk3/emojier.c	2018-10-13 03:34:50.917032254 -0000
++++ b/ui/gtk3/emojier.c	2018-10-13 03:35:32.093033270 -0000
+@@ -2955,7 +2955,7 @@
+ 	_tmp21_ = _tmp20_.height;
+ 	gtk_adjustment_clamp_page (adjustment, (gdouble) _tmp17_, (gdouble) (_tmp19_ + _tmp21_));
+ 	_tmp22_ = self->priv->m_category_active_index;
+-	g_return_val_if_fail (_tmp22_ >= 0, FALSE);
++	g_return_if_fail (_tmp22_ >= 0);
+ 	_tmp23_ = self->priv->m_lookup_table;
+ 	_tmp24_ = self->priv->m_category_active_index;
+ 	ibus_lookup_table_set_cursor_pos (_tmp23_, (guint) _tmp24_);
