@@ -1,0 +1,21 @@
+--- a/media_driver/cmake/linux/media_compile_flags_linux.cmake	2019-08-30 04:04:33.507045710 +0200
++++ b/media_driver/cmake/linux/media_compile_flags_linux.cmake	2019-08-30 04:05:04.772046485 +0200
+@@ -31,7 +31,6 @@
+     -Wno-narrowing
+     -Wno-overflow
+     -Wno-parentheses
+-    -Werror=implicit-function-declaration
+     -Werror=address
+     -Werror=format-security
+     -Werror=non-virtual-dtor
+--- a/media_driver/media_top_cmake.cmake	2019-08-30 04:13:27.270058945 +0200
++++ b/media_driver/media_top_cmake.cmake	2019-08-30 04:13:44.167059364 +0200
+@@ -80,7 +80,7 @@
+ add_library(${LIB_NAME_STATIC} STATIC $<TARGET_OBJECTS:${LIB_NAME_OBJ}>)
+ set_target_properties(${LIB_NAME_STATIC} PROPERTIES OUTPUT_NAME ${LIB_NAME})
+ 
+-option(MEDIA_BUILD_FATAL_WARNINGS "Turn compiler warnings into fatal errors" ON)
++option(MEDIA_BUILD_FATAL_WARNINGS "Turn compiler warnings into fatal errors" OFF)
+ if(MEDIA_BUILD_FATAL_WARNINGS)
+     set_target_properties(${LIB_NAME_OBJ} PROPERTIES COMPILE_FLAGS "-Werror")
+ endif()
