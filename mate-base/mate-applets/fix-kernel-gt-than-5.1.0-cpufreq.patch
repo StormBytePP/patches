@@ -1,0 +1,113 @@
+--- a/cpufreq/src/cpufreq-selector/cpufreq-selector-libcpufreq.c	2019-12-06 16:46:19.354000000 +0100
++++ b/cpufreq/src/cpufreq-selector/cpufreq-selector-libcpufreq.c	2019-12-06 17:14:59.526402394 +0100
+@@ -16,13 +16,14 @@
+  *  License along with this library; if not, write to the Free
+  *  Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+  *
+- * Authors : Carlos García Campos <carlosgc@gnome.org>
++ * Authors : Carlos GarcÃ­a Campos <carlosgc@gnome.org>
+  */
+ 
+ #include <glib.h>
+ #include <glib/gstdio.h>
+ #include <cpufreq.h>
+ #include <stdlib.h>
++#include <linux/version.h>
+ 
+ #include "cpufreq-selector-libcpufreq.h"
+ 
+@@ -39,7 +40,11 @@
+ G_DEFINE_TYPE (CPUFreqSelectorLibcpufreq, cpufreq_selector_libcpufreq, CPUFREQ_TYPE_SELECTOR)
+ 
+ typedef struct cpufreq_policy                CPUFreqPolicy;
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 1, 0)
++typedef struct cpufreq_frequencies CPUFreqFrequencyList;
++#else
+ typedef struct cpufreq_available_frequencies CPUFreqFrequencyList;
++#endif
+ typedef struct cpufreq_available_governors   CPUFreqGovernorList;
+ 
+ static void
+@@ -80,8 +85,11 @@
+ 	g_object_get (G_OBJECT (selector),
+ 		      "cpu", &cpu,
+ 		      NULL);
+-
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 1, 0)
++	freqs = cpufreq_get_frequencies ("available", cpu);
++#else
+ 	freqs = cpufreq_get_available_frequencies (cpu);
++#endif
+ 	if (!freqs)
+ 		return 0;
+ 
+@@ -89,7 +97,11 @@
+ 		guint current_dist;
+ 		
+ 		if (freq->frequency == frequency) {
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 1, 0)
++			cpufreq_put_frequencies (freqs);
++#else
+ 			cpufreq_put_available_frequencies (freqs);
++#endif
+ 
+ 			return frequency;
+ 		}
+--- a/cpufreq/src/cpufreq-monitor-libcpufreq.c	2019-12-06 17:09:18.342000000 +0100
++++ b/cpufreq/src/cpufreq-monitor-libcpufreq.c	2019-12-06 17:15:44.322403505 +0100
+@@ -16,7 +16,7 @@
+  *  License along with this library; if not, write to the Free
+  *  Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+  *
+- * Authors : Carlos García Campos <carlosgc@gnome.org>
++ * Authors : Carlos GarcÃ­a Campos <carlosgc@gnome.org>
+  */
+ 
+ #include <config.h>
+@@ -31,6 +31,7 @@
+ #endif
+ #include "cpufreq-monitor-libcpufreq.h"
+ #include "cpufreq-utils.h"
++#include <linux/version.h>
+ 
+ static void     cpufreq_monitor_libcpufreq_class_init                (CPUFreqMonitorLibcpufreqClass *klass);
+ 
+@@ -41,7 +42,11 @@
+ G_DEFINE_TYPE (CPUFreqMonitorLibcpufreq, cpufreq_monitor_libcpufreq, CPUFREQ_TYPE_MONITOR)
+ 
+ typedef struct cpufreq_policy                CPUFreqPolicy;
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 1, 0)
++typedef struct cpufreq_frequencies CPUFreqFrequencyList;
++#else
+ typedef struct cpufreq_available_frequencies CPUFreqFrequencyList;
++#endif
+ typedef struct cpufreq_available_governors   CPUFreqGovernorList;
+ 
+ static void
+@@ -167,7 +172,11 @@
+         g_object_get (G_OBJECT (monitor),
+                       "cpu", &cpu, NULL);
+ 
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 1, 0)
++	freqs = cpufreq_get_frequencies ("available", cpu);
++#else
+ 	freqs = cpufreq_get_available_frequencies (cpu);
++#endif
+ 	if (!freqs)
+ 		return NULL;
+ 
+@@ -182,9 +191,13 @@
+ 			g_free (frequency);
+ 	}
+ 
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 1, 0)
++	cpufreq_put_frequencies (freqs);
++#else
+ 	cpufreq_put_available_frequencies (freqs);
++#endif
+ 
+-        return g_list_sort (list, compare);
++    return g_list_sort (list, compare);
+ }
+ 
+ static GList *
