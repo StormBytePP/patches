@@ -1,0 +1,11 @@
+--- a/src/VBox/GuestHost/OpenGL/include/GL/glext.h	2019-08-20 13:19:54.614484642 +0200
++++ b/src/VBox/GuestHost/OpenGL/include/GL/glext.h	2019-08-20 13:21:00.405484391 +0200
+@@ -4241,7 +4241,7 @@
+ typedef GLboolean (APIENTRYP PFNGLISPROGRAMPROC) (GLuint program);
+ typedef GLboolean (APIENTRYP PFNGLISSHADERPROC) (GLuint shader);
+ typedef void (APIENTRYP PFNGLLINKPROGRAMPROC) (GLuint program);
+-typedef void (APIENTRYP PFNGLSHADERSOURCEPROC) (GLuint shader, GLsizei count, const GLchar* *string, const GLint *length);
++typedef void (APIENTRYP PFNGLSHADERSOURCEPROC) (GLuint shader, GLsizei count, const GLchar *const*string, const GLint *length);
+ typedef void (APIENTRYP PFNGLUSEPROGRAMPROC) (GLuint program);
+ typedef void (APIENTRYP PFNGLUNIFORM1FPROC) (GLint location, GLfloat v0);
+ typedef void (APIENTRYP PFNGLUNIFORM2FPROC) (GLint location, GLfloat v0, GLfloat v1);
