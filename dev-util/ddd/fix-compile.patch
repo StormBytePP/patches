@@ -1,0 +1,22 @@
+--- a/ddd/exit.C	2019-07-03 20:06:15 UTC
++++ b/ddd/exit.C
+@@ -769,7 +769,7 @@ static void PostXtErrorCB(XtPointer client_data, XtInt
+ 
+ static XtAppContext xt_error_app_context = 0;
+ 
+-static void ddd_xt_error(String message = 0)
++static _X_NORETURN void ddd_xt_error(String message = 0)
+ {
+     ddd_has_crashed = true;
+ 
+--- a/ddd/mainloop.C	2019-07-03 20:06:57 UTC
++++ b/ddd/mainloop.C
+@@ -121,7 +121,7 @@ void ddd_main_loop()
+ }
+ 
+ // Return to DDD main loop, using longjmp()
+-void goto_main_loop(int sig)
++_X_NORETURN void goto_main_loop(int sig)
+ {
+     longjmp(main_loop_env, sig);
+ }

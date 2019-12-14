@@ -1,0 +1,10 @@
+--- a/avidemux/qt4/ADM_userInterfaces/ADM_gui/Q_dummyWidget.cpp	2019-12-13 18:12:21.618844816 +0100
++++ b/avidemux/qt4/ADM_userInterfaces/ADM_gui/Q_dummyWidget.cpp	2019-12-13 18:12:32.028844148 +0100
+@@ -4,6 +4,7 @@
+ #include <QOpenGLWidget>
+ #include "Q_dummyWidget.h"
+ #include "ADM_default.h"
++#include <GL/gl.h>
+ 
+ void dummyGLWidget::paintGL()
+ {

@@ -1,0 +1,11 @@
+--- a/avidemux_plugins/ADM_audioEncoders/dcaenc/audioencoder_dcaenc.cpp	2019-12-13 18:25:21.550794754 +0100
++++ b/avidemux_plugins/ADM_audioEncoders/dcaenc/audioencoder_dcaenc.cpp	2019-12-13 18:27:07.234787970 +0100
+@@ -226,7 +226,7 @@
+ cont:
+   if (nbout < 0)
+     {
+-      printf ("[dcaenc] Error !!! : %"PRIi32"\n", nbout);
++      printf ("[dcaenc] Error !!! : %" PRIi32 "\n", nbout);
+       return false;
+     }
+   *len = nbout;

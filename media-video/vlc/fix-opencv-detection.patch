@@ -1,0 +1,11 @@
+--- a/configure.ac	2019-12-13 05:13:23.894561600 +0100
++++ b/configure.ac	2019-12-13 05:13:34.666560908 +0100
+@@ -1842,7 +1842,7 @@
+ dnl
+ dnl  OpenCV wrapper and example filters
+ dnl
+-PKG_ENABLE_MODULES_VLC([OPENCV], [opencv_example opencv_wrapper], [opencv > 2.0], (OpenCV (computer vision) filter), [auto])
++PKG_ENABLE_MODULES_VLC([OPENCV], [opencv_example opencv_wrapper], [opencv4 > 2.0], (OpenCV (computer vision) filter), [auto])
+ 
+ 
+ dnl
