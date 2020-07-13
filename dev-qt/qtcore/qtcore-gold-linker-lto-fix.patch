@@ -1,0 +1,10 @@
+--- a/mkspecs/linux-clang/qmake.conf	2020-07-13 20:17:38.398802741 +0200
++++ b/mkspecs/linux-clang/qmake.conf	2020-07-13 20:18:07.875803928 +0200
+@@ -11,6 +11,6 @@
+ include(../common/gcc-base-unix.conf)
+ include(../common/clang.conf)
+ 
+-QMAKE_LFLAGS += -ccc-gcc-name g++
++QMAKE_LFLAGS += -ccc-gcc-name g++ -flto=thin -fuse-ld=gold
+ 
+ load(qt_config)
