@@ -1,5 +1,5 @@
---- avidemux_core/ADM_core/include/ADM_assert.h.orig	2020-07-15 01:59:05.445336114 +0200
-+++ avidemux_core/ADM_core/include/ADM_assert.h	2020-07-15 01:59:29.306336706 +0200
+--- a/avidemux_core/ADM_core/include/ADM_assert.h	2020-07-15 01:59:05.445336114 +0200
++++ b/avidemux_core/ADM_core/include/ADM_assert.h	2020-07-15 01:59:29.306336706 +0200
 @@ -69,10 +69,6 @@
  
  #define ADM_dealloc(x) ADM_dezalloc( (void *)x)
