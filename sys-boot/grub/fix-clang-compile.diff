@@ -1,0 +1,70 @@
+--- grub-core/net/net.c.original	2020-08-09 09:47:11.288220645 +0200
++++ grub-core/net/net.c	2020-08-09 09:48:50.157224624 +0200
+@@ -1735,43 +1735,36 @@
+   return GRUB_ERR_NONE;
+ }
+ 
++int search_through (grub_size_t num_tries, grub_size_t slice_size)
++{
++  while (num_tries-- > 0)
++  {
++    grub_file_t file;
++    grub_dprintf ("net", "attempt to fetch config %s\n", config);
++    file = grub_file_open (config, GRUB_FILE_TYPE_CONFIG);
++    if (file)
++    {
++      grub_file_close (file);
++      return 0;
++    }
++    else
++    {
++      if (grub_errno == GRUB_ERR_IO)
++        grub_errno = GRUB_ERR_NONE;
++    }
++    if (grub_strlen (suffix) < slice_size)
++      break;
++    config[grub_strlen (config) - slice_size] = '\0';
++  }
++  return 1;
++}
++
+ grub_err_t
+ grub_net_search_config_file (char *config)
+ {
+   grub_size_t config_len;
+   char *suffix;
+ 
+-  auto int search_through (grub_size_t num_tries, grub_size_t slice_size);
+-  int search_through (grub_size_t num_tries, grub_size_t slice_size)
+-  {
+-    while (num_tries-- > 0)
+-      {
+-        grub_file_t file;
+-
+-        grub_dprintf ("net", "attempt to fetch config %s\n", config);
+-
+-        file = grub_file_open (config, GRUB_FILE_TYPE_CONFIG);
+-
+-        if (file)
+-          {
+-            grub_file_close (file);
+-            return 0;
+-          }
+-        else
+-          {
+-            if (grub_errno == GRUB_ERR_IO)
+-              grub_errno = GRUB_ERR_NONE;
+-          }
+-
+-        if (grub_strlen (suffix) < slice_size)
+-          break;
+-
+-        config[grub_strlen (config) - slice_size] = '\0';
+-      }
+-
+-    return 1;
+-  }
+-
+   config_len = grub_strlen (config);
+   config[config_len] = '-';
+   suffix = config + config_len + 1;
