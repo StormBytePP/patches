@@ -1,0 +1,33 @@
+--- a/XMPFiles/source/PluginHandler/ModuleUtils.h	2020-09-12 07:12:10.501927894 +0200
++++ b/XMPFiles/source/PluginHandler/ModuleUtils.h	2020-09-12 07:12:33.264927136 +0200
+@@ -18,7 +18,7 @@
+ #include <CoreFoundation/CFBundle.h>
+ typedef CFBundleRef OS_ModuleRef;
+ #elif XMP_UNIXBuild
+-#include <tr1/memory>
++#include <memory>
+ typedef void* OS_ModuleRef;
+ #else
+ #error	Unsupported operating system
+--- a/XMPFiles/source/PluginHandler/OS_Utils_Linux.cpp	2020-09-12 07:13:33.578925129 +0200
++++ b/XMPFiles/source/PluginHandler/OS_Utils_Linux.cpp	2020-09-12 07:13:56.446924368 +0200
+@@ -28,7 +28,7 @@
+ static ResourceFileToPathMap						sMapResourceFileToPath;
+ static XMP_ReadWriteLock							sMapModuleRWLock;
+ 
+-typedef std::tr1::shared_ptr<int>					FilePtr;
++typedef std::shared_ptr<int>					FilePtr;
+ 
+ static std::string GetModulePath( OS_ModuleRef inOSModule );
+ /** ************************************************************************************************************************
+--- a/XMPFiles/source/PluginHandler/PluginManager.h	2020-09-12 07:16:58.481918309 +0200
++++ b/XMPFiles/source/PluginHandler/PluginManager.h	2020-09-12 07:17:29.484917277 +0200
+@@ -21,7 +21,7 @@
+ 	#include <memory>
+ 	#define XMP_SHARED_PTR std::shared_ptr
+ #else
+-	#define XMP_SHARED_PTR std::tr1::shared_ptr
++	#define XMP_SHARED_PTR std::shared_ptr
+ #endif
+ 
+ namespace XMP_PLUGIN
