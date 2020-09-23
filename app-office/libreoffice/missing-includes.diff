@@ -1,0 +1,20 @@
+--- a/libreofficekit/qa/gtktiledviewer/gtv-helpers.hxx	2020-09-23 10:32:52.774811685 +0200
++++ b/libreofficekit/qa/gtktiledviewer/gtv-helpers.hxx	2020-09-23 10:33:05.857810846 +0200
+@@ -13,6 +13,7 @@
+ #include <gtk/gtk.h>
+ 
+ #include <map>
++#include <vector>
+ #include <sstream>
+ #include <string>
+ #include <memory>
+--- a/libreofficekit/qa/gtktiledviewer/gtv-lok-dialog.cxx	2020-09-23 11:12:26.631659311 +0200
++++ b/libreofficekit/qa/gtktiledviewer/gtv-lok-dialog.cxx	2020-09-23 11:12:43.393658235 +0200
+@@ -11,6 +11,7 @@
+ #include <gdk/gdkkeysyms.h>
+ 
+ #include <iostream>
++#include <sstream>
+ 
+ #include <LibreOfficeKit/LibreOfficeKitGtk.h>
+ #include <LibreOfficeKit/LibreOfficeKitEnums.h>
