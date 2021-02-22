@@ -36,21 +36,19 @@ Reviewed-by: Stephan Bergmann <sbergman@redhat.com>
  .../cpp_uno/gcc3_linux_x86-64/except.cxx      | 53 +++++++++++++++++++
  2 files changed, 88 insertions(+), 8 deletions(-)
 
-diff -ru libreoffice-7.0.3.1.orig/bridges/source/cpp_uno/gcc3_linux_aarch64/abi.cxx libreoffice-7.0.3.1/bridges/source/cpp_uno/gcc3_linux_aarch64/abi.cxx
---- libreoffice-7.0.3.1.orig/bridges/source/cpp_uno/gcc3_linux_aarch64/abi.cxx	2020-12-11 02:38:41.381272142 -0800
-+++ libreoffice-7.0.3.1/bridges/source/cpp_uno/gcc3_linux_aarch64/abi.cxx	2020-12-11 02:40:41.991261582 -0800
-@@ -136,8 +136,8 @@
+--- a/bridges/source/cpp_uno/gcc3_linux_aarch64/abi.cxx.orig	2021-02-22 05:38:02.724087536 +0100
++++ b/bridges/source/cpp_uno/gcc3_linux_aarch64/abi.cxx	2021-02-22 05:41:42.581089590 +0100
+@@ -162,7 +162,8 @@
  extern "C" void _GLIBCXX_CDTOR_CALLABI deleteException(void * exception) {
      __cxxabiv1::__cxa_exception * header =
          static_cast<__cxxabiv1::__cxa_exception *>(exception) - 1;
 -#if defined _LIBCPPABI_VERSION // detect libc++abi
--    // The libcxxabi commit
 +#if !defined MACOSX && defined _LIBCPPABI_VERSION // detect libc++abi
 +    // First, the libcxxabi commit
+     // The libcxxabi commit
      // <http://llvm.org/viewvc/llvm-project?view=revision&revision=303175>
      // "[libcxxabi] Align unwindHeader on a double-word boundary" towards
-     // LLVM 5.0 changed the size of __cxa_exception by adding
-@@ -147,17 +147,48 @@
+@@ -173,11 +174,31 @@
      // to the final member unwindHeader, on x86-64 effectively adding a hole of
      // size 8 in front of that member (changing its offset from 88 to 96,
      // sizeof(__cxa_exception) from 120 to 128, and alignof(__cxa_exception)
@@ -83,6 +81,12 @@ diff -ru libreoffice-7.0.3.1.orig/bridges/source/cpp_uno/gcc3_linux_aarch64/abi.
 +    // "#ifdef MACOSX" in the definition of __cxa_exception and the corresponding hack in call in
 +    // bridges/source/cpp_uno/gcc3_linux_aarch64/uno2cpp.cxx) can be dropped once we can be sure
 +    // that we only run against new libcxxabi that has the reserve member.
+ 
+     // Later, libcxxabi, as used at least on macOS on arm64, added a
+     // void *reserve at the start of the __cxa_exception in front of
+@@ -185,11 +206,22 @@
+     // https://github.com/llvm/llvm-project/commit/f2a436058fcbc11291e73badb44e243f61046183#diff-ba9cda1ceca630ba040b154fe198adbd
+ 
      if (header->exceptionDestructor != &deleteException) {
 -        header = reinterpret_cast<__cxxabiv1::__cxa_exception *>(
 +        auto const header1 = reinterpret_cast<__cxxabiv1::__cxa_exception *>(
@@ -105,11 +109,9 @@ diff -ru libreoffice-7.0.3.1.orig/bridges/source/cpp_uno/gcc3_linux_aarch64/abi.
      OUString unoName(toUnoName(header->exceptionType->name()));
      typelib_TypeDescription * td = 0;
      typelib_typedescription_getByName(&td, unoName.pData);
-diff --git a/bridges/source/cpp_uno/gcc3_linux_x86-64/except.cxx b/bridges/source/cpp_uno/gcc3_linux_x86-64/except.cxx
-index 981ddfe676f7..2a92dba37475 100644
---- a/bridges/source/cpp_uno/gcc3_linux_x86-64/except.cxx
-+++ b/bridges/source/cpp_uno/gcc3_linux_x86-64/except.cxx
-@@ -82,6 +82,59 @@ extern "C" {
+--- a/bridges/source/cpp_uno/gcc3_linux_x86-64/except.cxx.orig	2021-02-22 05:43:05.875090368 +0100
++++ b/bridges/source/cpp_uno/gcc3_linux_x86-64/except.cxx	2021-02-22 05:44:38.783091236 +0100
+@@ -82,6 +82,59 @@
  static void _GLIBCXX_CDTOR_CALLABI deleteException( void * pExc )
  {
      __cxxabiv1::__cxa_exception const * header = static_cast<__cxxabiv1::__cxa_exception const *>(pExc) - 1;
