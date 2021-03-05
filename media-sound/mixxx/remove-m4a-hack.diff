@@ -1,0 +1,10 @@
+--- a/plugins/soundsourcem4a/soundsourcem4a.cpp	2021-03-05 15:48:57.350251083 +0100
++++ b/plugins/soundsourcem4a/soundsourcem4a.cpp	2021-03-05 15:49:32.615252502 +0100
+@@ -14,6 +14,7 @@
+ #endif
+ 
+ // TODO(XXX): Do we still need this "hack" on the supported platforms?
++#undef __M4AHACK__ // Do not compile with this "hack"
+ #ifdef __M4AHACK__
+ typedef uint32_t SAMPLERATE_TYPE;
+ #else
