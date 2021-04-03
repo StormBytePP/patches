@@ -1,0 +1,11 @@
+--- a/tools/create-exports-NetworkManager.sh	2021-04-03 10:43:12.606065030 +0200
++++ b/tools/create-exports-NetworkManager.sh	2021-04-03 10:43:28.075064276 +0200
+@@ -1,8 +1,5 @@
+ #!/bin/bash
+ 
+-set -e
+-set -o pipefail
+-
+ die() {
+     echo "$@"
+     exit 1
