@@ -1,5 +1,5 @@
---- random/jitterentropy-base.c.orig	2021-05-13 14:45:28.788340024 +0200
-+++ random/jitterentropy-base.c	2021-05-13 14:47:41.831335596 +0200
+--- a/random/jitterentropy-base.c	2021-05-13 14:45:28.788340024 +0200
++++ b/random/jitterentropy-base.c	2021-05-13 14:47:41.831335596 +0200
 @@ -50,7 +50,12 @@
   */
  
