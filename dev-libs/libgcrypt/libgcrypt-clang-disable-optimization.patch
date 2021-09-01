@@ -10,6 +10,7 @@
 +  #else
 +    #pragma GCC optimize ("O0")
 +  #endif
++  #undef __OPTIMIZE__
  #endif
  
  #include "jitterentropy.h"
