@@ -1,16 +1,15 @@
---- a/random/jitterentropy-base.c	2021-05-13 14:45:28.788340024 +0200
-+++ b/random/jitterentropy-base.c	2021-05-13 14:47:41.831335596 +0200
-@@ -50,7 +50,12 @@
-  */
+--- a/random/jitterentropy-base.c	2021-09-01 05:25:48.483643659 +0200
++++ b/random/jitterentropy-base.c	2021-09-01 05:27:35.835636768 +0200
+@@ -51,7 +51,11 @@
  
  #undef _FORTIFY_SOURCE
+ #ifdef __OPTIMIZE__
 -#pragma GCC optimize ("O0")
-+#ifdef __clang__
-+ #pragma clang optimize off
-+ #undef __OPTIMIZE__
-+#else
-+ #pragma GCC optimize ("O0")
-+#endif
++  #ifdef __clang__
++    #pragma clang optimize off
++  #else
++    #pragma GCC optimize ("O0")
++  #endif
+ #endif
  
  #include "jitterentropy.h"
- 
