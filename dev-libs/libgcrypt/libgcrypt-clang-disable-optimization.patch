@@ -1,6 +1,6 @@
---- a/random/jitterentropy-base.c	2021-09-01 05:25:48.483643659 +0200
-+++ b/random/jitterentropy-base.c	2021-09-01 05:27:35.835636768 +0200
-@@ -51,7 +51,11 @@
+--- random/jitterentropy-base.c.orig	2021-09-01 05:44:19.206572363 +0200
++++ random/jitterentropy-base.c	2021-09-01 05:44:26.289571909 +0200
+@@ -51,7 +51,12 @@
  
  #undef _FORTIFY_SOURCE
  #ifdef __OPTIMIZE__
