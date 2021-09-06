@@ -1,5 +1,5 @@
---- a/UnpackedTarball/skia/src/ports/SkFontHost_FreeType_common.cpp	2021-09-06 23:40:28.570149203 +0200
-+++ b/UnpackedTarball/skia/src/ports/SkFontHost_FreeType_common.cpp	2021-09-06 23:40:55.355149454 +0200
+--- a/skia/src/ports/SkFontHost_FreeType_common.cpp	2021-09-06 23:40:28.570149203 +0200
++++ b/skia/src/ports/SkFontHost_FreeType_common.cpp	2021-09-06 23:40:55.355149454 +0200
 @@ -665,8 +665,8 @@
              canvas->drawPaint(paint);
              break;
