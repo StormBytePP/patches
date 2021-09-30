@@ -1,42 +1,11 @@
---- a/panel-plugin/sensors-plugin.c	2021-09-29 23:26:24.977667613 +0200
-+++ b/panel-plugin/sensors-plugin.c	2021-09-29 23:28:24.561663633 +0200
-@@ -329,7 +329,6 @@
- {
-     gint idx_sensorchip, idx_feature;
-     gboolean has_bars = FALSE;
--    gchar *panel_label_text;
-     gint size_panel = sensors->panel_size;
+--- a/panel-plugin/sensors-plugin.c	2021-09-30 15:24:17.886964190 +0200
++++ b/panel-plugin/sensors-plugin.c	2021-09-30 15:25:05.032961163 +0200
+@@ -1014,7 +1014,7 @@
+     sensors->widget_sensors = gtk_box_new ((sensors->plugin_mode == XFCE_PANEL_PLUGIN_MODE_HORIZONTAL) ? GTK_ORIENTATION_HORIZONTAL : GTK_ORIENTATION_VERTICAL, 0);
  
-     g_return_if_fail (sensors != NULL);
-@@ -337,11 +336,6 @@
-     if (!sensors->cover_panel_rows && xfce_panel_plugin_get_mode(sensors->plugin) != XFCE_PANEL_PLUGIN_MODE_DESKBAR)
-         size_panel /= xfce_panel_plugin_get_nrows (sensors->plugin);
+     /* initialize value label widget */
+-    sensors->panel_label_text = gtk_widget_new (GTK_TYPE_LABEL, "label", _("<span><b>Sensors</b></span>"), "use-markup", TRUE, "xalign", 0.0, "yalign", 0.5, "margin", INNER_BORDER, NULL);
++    sensors->panel_label_text = gtk_widget_new (GTK_TYPE_LABEL, "label", "", "use-markup", TRUE, "xalign", 0.0, "yalign", 0.5, "margin", INNER_BORDER, NULL);
  
--    panel_label_text = g_strdup (_("<span><b>Sensors</b></span>"));
--    gtk_label_set_markup (GTK_LABEL(sensors->panel_label_text), panel_label_text);
--    g_free (panel_label_text);
--    panel_label_text = NULL;
--
-     gtk_container_set_border_width (GTK_CONTAINER(sensors->widget_sensors), 0);
-     for (idx_sensorchip=0; idx_sensorchip < sensors->num_sensorchips; idx_sensorchip++) {
-         t_chip *chip =  g_ptr_array_index (sensors->chips, idx_sensorchip);
-@@ -442,7 +436,6 @@
- {
-     int idx_sensorchips, idx_feature;
-     gboolean has_tachos = FALSE;
--    gchar *panel_label_text;
-     gint panel_size;
+     gtk_widget_show (sensors->panel_label_text);
  
-     g_return_if_fail (sensors != NULL);
-@@ -452,11 +445,6 @@
-     if (!sensors->cover_panel_rows && xfce_panel_plugin_get_mode(sensors->plugin) != XFCE_PANEL_PLUGIN_MODE_DESKBAR)
-         panel_size /= xfce_panel_plugin_get_nrows (sensors->plugin);
- 
--    panel_label_text = g_strdup (_("<span><b>Sensors</b></span>"));
--    gtk_label_set_markup (GTK_LABEL(sensors->panel_label_text), panel_label_text);
--    g_free (panel_label_text);
--    panel_label_text = NULL;
--
-     gtk_container_set_border_width (GTK_CONTAINER(sensors->widget_sensors), 0);
-     for (idx_sensorchips=0; idx_sensorchips < sensors->num_sensorchips; idx_sensorchips++) {
-         t_chip *chip = g_ptr_array_index(sensors->chips, idx_sensorchips);
