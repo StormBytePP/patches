@@ -1,0 +1,10 @@
+--- a/_studio/shared/asc/src/asc.cpp	2021-10-04 12:25:47.612653087 +0200
++++ b/_studio/shared/asc/src/asc.cpp	2021-10-04 12:26:19.347651050 +0200
+@@ -33,6 +33,7 @@
+ #include "motion_estimation_engine.h"
+ #include <limits.h>
+ #include <algorithm>
++#include <cmath>
+ 
+ using std::min;
+ using std::max;
