@@ -1,0 +1,10 @@
+--- a/deps/v8/include/cppgc/allocation.h	2021-10-20 00:51:46.603940704 +0200
++++ b/deps/v8/include/cppgc/allocation.h	2021-10-20 00:52:08.799939965 +0200
+@@ -10,6 +10,7 @@
+ #include <cstdint>
+ #include <new>
+ #include <type_traits>
++#include <utility>
+ 
+ #include "cppgc/custom-space.h"
+ #include "cppgc/internal/api-constants.h"
