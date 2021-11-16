@@ -1,0 +1,10 @@
+--- a/src/Log.hxx	2021-11-16 08:10:00.845809665 +0100
++++ b/src/Log.hxx	2021-11-16 08:10:24.022808893 +0100
+@@ -23,6 +23,7 @@
+ #include "LogLevel.hxx"
+ #include "util/Compiler.h"
+ 
++#include <utility>
+ #include <exception>
+ 
+ class Domain;
