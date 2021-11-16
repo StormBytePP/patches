@@ -8,3 +8,13 @@
  #include <exception>
  
  class Domain;
+--- a/src/lib/expat/ExpatParser.hxx	2021-11-16 08:14:05.060801537 +0100
++++ b/src/lib/expat/ExpatParser.hxx	2021-11-16 08:14:25.079800870 +0100
+@@ -24,6 +24,7 @@
+ 
+ #include <expat.h>
+ 
++#include <utility>
+ #include <stdexcept>
+ 
+ class InputStream;
