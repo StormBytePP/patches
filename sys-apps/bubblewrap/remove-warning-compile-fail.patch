@@ -1,0 +1,41 @@
+--- a/configure	2022-03-04 09:10:02.672030341 +0100
++++ b/configure	2022-03-04 09:10:34.739030640 +0100
+@@ -6204,7 +6204,6 @@
+ 	-Werror=strict-prototypes \
+ 	-Werror=missing-prototypes \
+ 	-Werror=implicit-function-declaration \
+-        "-Werror=format=2 -Werror=format-security -Werror=format-nonliteral" \
+ 	-Werror=pointer-arith -Werror=init-self \
+         -Werror=missing-declarations \
+         -Werror=return-type \
+--- a/configure.ac	2022-03-04 09:12:31.403031730 +0100
++++ b/configure.ac	2022-03-04 09:12:46.945031875 +0100
+@@ -96,7 +96,6 @@
+ 	-Werror=strict-prototypes \
+ 	-Werror=missing-prototypes \
+ 	-Werror=implicit-function-declaration \
+-        "-Werror=format=2 -Werror=format-security -Werror=format-nonliteral" \
+ 	-Werror=pointer-arith -Werror=init-self \
+         -Werror=missing-declarations \
+         -Werror=return-type \
+--- a/meson.build	2022-03-04 09:13:16.174032148 +0100
++++ b/meson.build	2022-03-04 09:13:49.662032461 +0100
+@@ -50,18 +50,6 @@
+   language : 'c',
+ )
+ 
+-if (
+-  cc.has_argument('-Werror=format=2')
+-  and cc.has_argument('-Werror=format-security')
+-  and cc.has_argument('-Werror=format-nonliteral')
+-)
+-  add_project_arguments([
+-    '-Werror=format=2',
+-    '-Werror=format-security',
+-    '-Werror=format-nonliteral',
+-  ], language : 'c')
+-endif
+-
+ bash = find_program('bash', required : false)
+ 
+ if get_option('python') == ''
