@@ -9,3 +9,14 @@
  namespace Nicosia {
  
  using namespace WebCore;
+--- a/Source/WebCore/accessibility/atspi/AccessibilityRootAtspi.cpp	2022-03-26 17:32:52.803081613 +0100
++++ b/Source/WebCore/accessibility/atspi/AccessibilityRootAtspi.cpp	2022-03-26 17:33:32.347081983 +0100
+@@ -20,6 +20,8 @@
+ #include "config.h"
+ #include "AccessibilityRootAtspi.h"
+ 
++#include <locale.h>
++
+ #if USE(ATSPI)
+ #include "AXObjectCache.h"
+ #include "AccessibilityAtspiEnums.h"
